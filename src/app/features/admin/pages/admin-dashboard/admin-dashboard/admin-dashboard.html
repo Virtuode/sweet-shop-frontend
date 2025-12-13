@@ -1,0 +1,72 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  
+  <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Inventory Management</h1>
+      <p class="text-gray-500 mt-1">Manage stock levels, prices, and product details.</p>
+    </div>
+    <button (click)="onAddNew()" class="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-pink-500/30 transition-all transform hover:scale-105 active:scale-95">
+      <span class="text-xl">+</span> Add New Sweet
+    </button>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Product</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Stock Status</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let sweet of sweets" class="hover:bg-gray-50/50 transition-colors group">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-4">
+                <img [src]="sweet.imageUrl" class="w-12 h-12 rounded-lg object-cover shadow-sm bg-gray-100" alt="">
+                <span class="font-medium text-gray-900">{{ sweet.name }}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span class="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                {{ sweet.category }}
+              </span>
+            </td>
+            <td class="px-6 py-4 font-medium text-gray-900">
+              {{ sweet.price | currency }}
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-2">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span *ngIf="sweet.quantity < 5" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5" [ngClass]="sweet.quantity < 5 ? 'bg-amber-500' : 'bg-green-500'"></span>
+                </span>
+                <span class="text-sm" [ngClass]="sweet.quantity < 5 ? 'text-amber-600 font-medium' : 'text-gray-500'">
+                  {{ sweet.quantity }} Units
+                </span>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right space-x-2">
+              <button (click)="onEdit(sweet)" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">Edit</button>
+              <button (click)="onDelete(sweet.id)" class="text-red-600 hover:text-red-800 font-medium text-sm transition-colors">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div *ngIf="sweets.length === 0" class="p-8 text-center text-gray-500">
+      No items in inventory. Click "Add New Sweet" to start.
+    </div>
+  </div>
+
+  <app-sweet-form 
+    *ngIf="showForm" 
+    [sweetData]="selectedSweet"
+    (formSubmit)="onFormSubmit()"
+    (cancel)="onCancel()">
+  </app-sweet-form>
+</div>

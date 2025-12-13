@@ -1,0 +1,55 @@
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  
+  <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="cancel.emit()"></div>
+
+  <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in-up">
+    
+    <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+      <h3 class="text-lg font-bold text-gray-900">
+        {{ isEditMode ? 'Edit Sweet Details' : 'Add New Product' }}
+      </h3>
+      <button (click)="cancel.emit()" class="text-gray-400 hover:text-gray-600 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <form [formGroup]="sweetForm" (ngSubmit)="submit()" class="p-6 space-y-4">
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-500 uppercase">Sweet Name</label>
+          <input formControlName="name" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition" placeholder="e.g. Kaju Katli">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-500 uppercase">Category</label>
+          <input formControlName="category" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition" placeholder="e.g. Barfi">
+        </div>
+      </div>
+
+      
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-500 uppercase">Price (₹)</label>
+          <input type="number" formControlName="price" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-gray-500 uppercase">Quantity</label>
+          <input type="number" formControlName="quantity" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition">
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-xs font-semibold text-gray-500 uppercase">Image URL</label>
+        <input formControlName="imageUrl" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition" placeholder="https://...">
+      </div>
+
+      <div class="pt-4 flex items-center justify-end gap-3">
+        <button type="button" (click)="cancel.emit()" class="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-lg transition">Cancel</button>
+        <button type="submit" [disabled]="sweetForm.invalid" class="px-5 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-pink-600 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+          {{ isEditMode ? 'Update Changes' : 'Create Product' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
