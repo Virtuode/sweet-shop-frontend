@@ -1,59 +1,66 @@
-# Starsweet
+### **2. Frontend Repository README**
+**File:** `sweet-shop-frontend/README.md`
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+# 🍬 Sweet Shop UI (Frontend)
 
-## Development server
+A modern Single Page Application (SPA) for the Sweet Shop. Built with **Angular 19**, **RxJS**, and **Tailwind CSS**.
 
-To start a local development server, run:
+**Backend Repository:** [Link to your Backend Repo]
 
-```bash
+## 🚀 Features
+* **Browse & Search:** Real-time filtering by Name, Category, and Price using RxJS operators.
+* **User Accounts:** Secure Registration and Login forms.
+* **Shopping:** "Purchase" button that automatically decrements stock in the database.
+* **Admin Dashboard:** A specialized interface for Inventory Management (Add, Update, Delete, Restock).
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Install Dependencies
+Navigate to the project folder:
+
+npm install
+2. Start the Application
+Run the Angular development server:
+
+Bash
+
 ng serve
-```
+Navigate to http://localhost:4200 in your browser.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+3. Admin Access
+Login: Use the credentials created in the backend (Role: ADMIN).
 
-## Code scaffolding
+Dashboard: Once logged in as an Admin, access the /admin route to manage inventory.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📸 Screenshots
 
-```bash
-ng generate component component-name
-```
+### 1. Dashboard (Search & Filter)
+<img src="./public/project-screenshot/Dashboard.png" alt="Dashboard" width="700">
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 2. Admin Inventory Management
+<img src="./public/project-screenshot/Inventory1.png" alt="Admin Panel" width="700">
 
-```bash
-ng generate --help
-```
+### 3. Login Page
+<img src="./public/project-screenshot/Login.png" alt="Login Page" width="700">
 
-## Building
+### 4. Admin Database View (Prisma Studio)
+<img src="./public/project-screenshot/prismaAdmin.png" alt="Prisma Studio" width="700">
 
-To build the project run:
+🤖 My AI Usage
+In compliance with the project requirements, I utilized AI tools to assist in the development of this application.
 
-```bash
-ng build
-```
+Tools Used:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Google Gemini: Used as a primary co-pilot for code generation, debugging, and architectural planning.
 
-## Running unit tests
+How I Used It:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Boilerplate Generation: Generated initial structures for Angular components (Login, Dashboard) to speed up UI development.
 
-```bash
-ng test
-```
+Reactive Forms: Assisted in building the complex Filter Form (FormGroup) that combines multiple inputs (Name, Category, Price) into a single reactive stream using switchMap and debounceTime.
 
-## Running end-to-end tests
+Debugging: Helped resolve RxJS observable issues where the filter logic was not triggering correctly.
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Reflection: Using AI allowed me to implement advanced Reactive patterns quickly. It was particularly helpful in connecting the Frontend filters to the Backend query parameters seamlessly.
