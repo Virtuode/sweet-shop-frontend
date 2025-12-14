@@ -8,7 +8,7 @@
       loading="lazy"
     >
 
-    <!-- Quick Add to Cart on Hover (modern e-commerce feature) -->
+ 
     <div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent p-6">
       <button 
         (click)="onPurchase()" 
@@ -43,7 +43,7 @@
 
     <div class="flex items-center justify-between mt-auto">
       <span class="text-xl font-semibold text-gray-900">
-        {{ sweet.price | currency:'USD':'symbol':'1.2-2' }}
+        {{ sweet.price | rupee}}
       </span>
 
       <button 

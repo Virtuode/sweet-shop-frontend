@@ -1,77 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { Sweet } from '../../../core/models/sweet.model';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { SweetService } from '../../../core/services/sweet';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, of, startWith, switchMap } from 'rxjs';
 import { SweetCard } from '../../../shared/components/sweet-card/sweet-card';
 import { NgFor, NgIf } from '@angular/common';
 import { Loader } from '../../../shared/components/loader/loader';
+import { SweetService } from '../../../core/services/sweet';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ReactiveFormsModule,SweetCard,NgIf,NgFor,Loader],
+  imports: [ReactiveFormsModule, SweetCard, NgIf, NgFor, Loader],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
 
   sweets: Sweet[] = [];
-  searchControl = new FormControl('');
+  // searchControl removed - we use filterForm.controls['name'] instead
+  filterForm: FormGroup;
   loading = false;
 
-  constructor(private sweetService: SweetService) {}
+  categories = ['Milk Sweets', 'Dry Fruit', 'Traditional', 'Syrup Based', 'Ghee Sweets'];
+
+  constructor(
+    private sweetService: SweetService,
+    private fb: FormBuilder
+  ) {
+    this.filterForm = this.fb.group({
+      name: [''],      
+      category: [''], 
+      minPrice: [''], 
+      maxPrice: ['']  
+    });
+  }
 
   ngOnInit() {
     this.setupSearchStream();
   }
 
-  // Reactive Search Logic using RxJS
   setupSearchStream() {
-    this.loading = true; // Start loading initially
+    this.loading = true;
 
-    this.searchControl.valueChanges.pipe(
-      startWith(''),          // Load all sweets on startup
-      debounceTime(400),      // Wait 400ms after user stops typing
-      distinctUntilChanged(), // Ignore if query is same as previous
-      switchMap(query => {
-        this.loading = true;  // Show loader while fetching
-        // If empty, get all; otherwise search
-        return (!query || query.trim() === '') 
-          ? this.sweetService.getAllSweets() 
-          : this.sweetService.searchSweets(query); // 
+    // 👇 KEY FIX: Listen to the whole form, not just one control
+    this.filterForm.valueChanges.pipe(
+      startWith(this.filterForm.value), // Start with initial values (empty strings)
+      debounceTime(400),
+      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)), 
+      switchMap(filters => {
+        this.loading = true;
+        // 'filters' contains {name, category, minPrice, maxPrice}
+        return this.sweetService.searchSweets(filters);
       }),
       catchError(err => {
         console.error('Search Error:', err);
         this.loading = false;
-        return of([]); // Return empty array on error to keep stream alive
+        return of([]);
       })
     ).subscribe(data => {
       this.sweets = data;
-      this.loading = false; // Hide loader
+      this.loading = false;
     });
   }
 
-  // Handles the "Purchase" button click [cite: 39]
   handlePurchase(id: string) {
     this.sweetService.purchaseSweet(id).subscribe({
       next: () => {
-        // Optimistic update or refresh? Let's refresh to be safe and get new quantity
-        this.refreshData(); 
+        // Refresh grid using current filter state
+        this.sweetService.searchSweets(this.filterForm.value).subscribe(data => this.sweets = data);
         alert('Purchase Successful! 🍬');
       },
       error: (err) => alert('Purchase Failed: ' + err.message)
     });
   }
-
-  // Helper to re-fetch data without resetting search logic
-  private refreshData() {
-    const currentQuery = this.searchControl.value || '';
-    if (currentQuery) {
-      this.sweetService.searchSweets(currentQuery).subscribe(data => this.sweets = data);
-    } else {
-      this.sweetService.getAllSweets().subscribe(data => this.sweets = data);
-    }
-  }
-
-
 }

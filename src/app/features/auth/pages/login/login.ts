@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -21,12 +21,12 @@ export class Login {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], // 
+      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]], // 
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  // Getter for easy access in HTML
+
   get f() { return this.loginForm.controls; }
 
   onSubmit() {

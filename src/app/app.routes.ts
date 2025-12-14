@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth-guard';   // Ensure file name matches exactly (auth.guard.ts)
-import { adminGuard } from './core/guards/admin-guard'; // Ensure file name matches exactly (admin.guard.ts)
+import { authGuard } from './core/guards/auth-guard';   
+import { adminGuard } from './core/guards/admin-guard'; 
 
 export const routes: Routes = [
   // 1. Home / Shop Dashboard
@@ -10,8 +10,6 @@ export const routes: Routes = [
       .then(m => m.Dashboard)
   },
 
-  // 2. Authentication (Lazy Loaded)
-  // This now points to the file you just created in Step 1
   {
     path: 'auth',
     loadChildren: () => import('./features/auth/auth.routes')

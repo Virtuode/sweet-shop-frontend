@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Sweet } from '../../../core/models/sweet.model';
 import { CommonModule, CurrencyPipe, NgIf } from '@angular/common';
+import { CurrencyFormatPipe } from '../../pipes/currency-format-pipe';
 
 @Component({
   selector: 'app-sweet-card',
-  imports: [CurrencyPipe,NgIf,CommonModule],
+  imports: [NgIf,CommonModule,CurrencyFormatPipe],
   templateUrl: './sweet-card.html',
   styleUrl: './sweet-card.css',
 })

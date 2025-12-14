@@ -3,10 +3,11 @@ import { Sweet } from '../../../../../core/models/sweet.model';
 import { SweetService } from '../../../../../core/services/sweet';
 import { CommonModule, CurrencyPipe, NgFor } from '@angular/common';
 import { SweetForm } from '../../../components/sweet-form/sweet-form';
+import { CurrencyFormatPipe } from '../../../../../shared/pipes/currency-format-pipe';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [NgFor,SweetForm,CurrencyPipe,CommonModule],
+  imports: [NgFor,SweetForm,CommonModule,CurrencyFormatPipe],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })

@@ -16,27 +16,41 @@ export class SweetService {
   }
 
   // Search logic [cite: 21]
-  searchSweets(query: string): Observable<Sweet[]> {
-    const params = new HttpParams().set('q', query);
+  searchSweets(filter : any): Observable<Sweet[]> {
+    let params = new HttpParams();
+  
+    if(filter.name) {
+      params = params.set('q',filter.name);
+    }
+
+    if(filter.category) {
+      params = params.set('category', filter.category);
+    }
+
+    if (filter.minPrice) {
+        params = params.set('minPrice', filter.minPrice);
+    }
+    if (filter.maxPrice) {
+        params = params.set('maxPrice', filter.maxPrice);
+    }
+
     return this.http.get<Sweet[]>(`${this.apiUrl}/search`, { params });
-  }
+}
 
   // Purchase logic [cite: 26]
   purchaseSweet(id: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}/purchase`, {});
   }
 
-  // Admin: Create [cite: 19]
+
   createSweet(sweet: Sweet): Observable<Sweet> {
     return this.http.post<Sweet>(this.apiUrl, sweet);
   }
 
-  // Admin: Update [cite: 23]
   updateSweet(id: string, sweet: Sweet): Observable<Sweet> {
     return this.http.put<Sweet>(`${this.apiUrl}/${id}`, sweet);
   }
 
-  // Admin: Delete [cite: 24]
   deleteSweet(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
