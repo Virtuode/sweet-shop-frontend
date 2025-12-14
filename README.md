@@ -45,9 +45,6 @@ Dashboard: Once logged in as an Admin, access the /admin route to manage invento
 ### 3. Login Page
 <img src="./public/project-screenshot/Login.png" alt="Login Page" width="700">
 
-### 4. Login Page
-<img src="./public/project-screenshot/Register.png" alt="Register Page" width="700">
-
 ### 5. Admin Database View (Prisma Studio)
 <img src="./public/project-screenshot/prismaAdmin.png" alt="Prisma Studio" width="700">
 
